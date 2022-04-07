@@ -39,10 +39,13 @@ class StageToRedshiftOperator(BaseOperator):
         self.destination_table = destination_table
 
     def execute(self, context):
-        # insert the relevant partition into the s3_key based on execution date
-        rendered_s3_key = self.s3_key.format(**context)
-        
-        s3_path = self.s3_bucket + rendered_s3_key
+        ### Uncomment to use this to set s3_path if we want to refactor to make this Operator load in specific partitions based on backfill dates
+        # # insert the relevant partition into the s3_key based on execution date
+        # rendered_s3_key = self.s3_key.format(**context)
+        # s3_path = self.s3_bucket + rendered_s3_key
+        ###
+
+        s3_path = self.s3_bucket + self.s3_key
         full_table_name = f"{self.destination_db}.{self.destination_schema}.{self.destination_table}"
         
         aws_hook = AwsHook(self.aws_credentials)

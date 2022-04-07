@@ -99,13 +99,19 @@ load_time_dimension_table = LoadDimensionOperator(
     delete_load=True
 )
 
-# check to ensure all final tables have >0 rows
 run_quality_checks = DataQualityOperator(
     task_id='Run_data_quality_checks',
     dag=dag,
     redshift_conn_id="redshift",
     schema="public",
-    tables=["songs", "artists", "users", "time", "songplays"]
+    checks=[
+        {'test_sql': "SELECT COUNT(*) FROM songs", 'expected_result': 0, 'comparison': '>'},
+        {'test_sql': "SELECT COUNT(*) FROM artists", 'expected_result': 0, 'comparison': '>'},
+        {'test_sql': "SELECT COUNT(*) FROM time", 'expected_result': 0, 'comparison': '>'},
+        {'test_sql': "SELECT COUNT(*) FROM users", 'expected_result': 0, 'comparison': '>'},
+        {'test_sql': "SELECT COUNT(*) FROM songplays", 'expected_result': 0, 'comparison': '>'},
+        {'test_sql': "SELECT COUNT(*) FROM songplays WHERE userid is null", 'expected_result': 0, 'comparison': '=='}
+    ]
 )
 
 end_operator = DummyOperator(task_id='Stop_execution',  dag=dag)
