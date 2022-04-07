@@ -5,11 +5,7 @@ from airflow.utils.decorators import apply_defaults
 class DataQualityOperator(BaseOperator):
     """
     An Airflow DAG operator class to check data quality of tables in a Postgres DB.
-<<<<<<< HEAD
-    Runs all checks passed in via 'checks' list. Raises error in case of any failures.
-=======
     Runs all checks defined in 'checks' list. Raises error in case of any failures.
->>>>>>> 43d8fa9 (Parameterizing DataQualityOperator to enable dag creator to pass in custom checks)
     
     By default, Airflow runs the execute method when this operator is included in a DAG.
     """
@@ -47,22 +43,6 @@ class DataQualityOperator(BaseOperator):
                                    check '{check['comparison']} {check['expected_result']}'")
             else:
                 self.log.info(f"Data quality check for {query} passed with result {result}")
-<<<<<<< HEAD
-
-        # # for each table, check to make sure there are >0 rows
-        # for table in self.tables:
-        #     full_table_name = f"{self.db}.{self.schema}.{table}"
-        #     records = redshift_hook.get_records(f"SELECT count(*) from {full_table_name}")
-            
-        #     if len(records) < 1 or len(records[0]) < 1:
-        #         raise ValueError(f"Data quality check failed. {full_table_name} returned no results")
-        #     if records[0][0] < 1:
-        #         raise ValueError(f"Data quality check failed. {full_table_name} contained 0 rows")
-                
-        #     self.log.info(f"Data quality on table {full_table_name} check passed with {records[0][0]} records")
-            
-=======
->>>>>>> 43d8fa9 (Parameterizing DataQualityOperator to enable dag creator to pass in custom checks)
         
             
             
