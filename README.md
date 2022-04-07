@@ -10,10 +10,10 @@ main steps:
 * run data quality checks on final tables
 
 To do so, we create the following four Airflow operators:
-* StageToRedshiftOperator - copies data from S3 data sources to staging tables in Redshift. For fact data, copies only the relevant partitions (meaning Airflow backfills can be run to backfill/populate only event data from a certain time frame)
+* StageToRedshiftOperator - copies data from S3 data sources to staging tables in Redshift
 * LoadFactOperator - populates 'songplays' fact table
 * LoadDimensionOperator - populates 'users', 'artists', 'songs', and 'time' dimension tables
-* DataQualityOperator - checks to ensure all tables are populated with data (simply checks that num rows > 0). Raises error if not.
+* DataQualityOperator - runs a set of user-defined sql statements and checks results against provided expected output
 
 **Final DAG:**
 ![alt text](https://github.com/mimoyer21/sparkify-airflow-etl/blob/main/Sparkify_Airflow_ETL_DAG.png?raw=true) 
@@ -23,6 +23,4 @@ To do so, we create the following four Airflow operators:
 2. Connect to Airflow and configure Airflow connections for the following:
       * aws_credentials: AWS IAM user credentials that can access the S3 data sources
       * redshift: the Redshift cluster details so Airflow can access and write to the db
-3. Turn on and schedule and/or manually run the 'sparkify_etl_dag' (note: the S3 data source only has event data for 2018/11, so only backfilling for that month will produce results--running for a different time period will have no event data)
-
-
+3. Turn on and allow scheduled runs and/or manually run the 'sparkify_etl_dag' 
