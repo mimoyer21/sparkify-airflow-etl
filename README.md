@@ -1,5 +1,5 @@
 # sparkify-airflow-etl
-Airflow DAG to run ETL process to populate Redshift db with Sparkify data from S3 data sources.
+Airflow DAG to run ETL process to populate a Redshift db with data from a fictional Sparkify music streaming app from S3 data sources.
 
 **Background:**
 The source datasets consist of JSON logs that tell about user activity in the Sparkify music application and JSON metadata 
